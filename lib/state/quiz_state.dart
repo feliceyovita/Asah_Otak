@@ -13,15 +13,18 @@ class QuizState extends ChangeNotifier {
   int get index => _index;
   int get score => _score;
 
+  // list soal utk kategori aktif
   List<Question> get questions =>
       _category == null ? [] : (QuestionData.byCategory[_category] ?? []);
+
+  // soal saat ini
+  Question get current => questions[_index];
 
   void setUsername(String name) {
     _username = name.trim();
     notifyListeners();
   }
 
-  // >>> ini yang bikin error hilang
   void setCategory(String cat) {
     _category = cat;
     _index = 0;
@@ -29,14 +32,37 @@ class QuizState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void nextQuestion() {
-    _index++;
-    notifyListeners();
-  }
-
   void addScore() {
     _score++;
     notifyListeners();
+  }
+
+  void nextQuestion() {
+    if (_index < questions.length - 1) {
+      _index++;
+      notifyListeners();
+    }
+  }
+
+  /// Dipanggil dari quiz.dart:
+  /// Menilai jawaban; jika benar tambah skor.
+  /// Lalu maju ke soal berikutnya.
+  /// Return: `true` masih ada soal berikut, `false` berarti habis.
+  bool answer(int selectedIndex) {
+    if (selectedIndex == current.correctIndex) {
+      _score++;
+    }
+    return next();
+  }
+
+  /// Maju 1 soal. Return `true` jika masih ada soal berikut.
+  bool next() {
+    final hasNext = _index < questions.length - 1;
+    if (hasNext) {
+      _index++;
+      notifyListeners();
+    }
+    return hasNext;
   }
 
   void resetAll() {
