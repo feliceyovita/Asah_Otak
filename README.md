@@ -1,16 +1,24 @@
-# asahotak
+# 🧠 AsahOtak
 
-A new Flutter project.
+---
 
-## Getting Started
+## 👩‍💻 Identity Saya
+| Nama | NIM | Lab |
+|------|------|-----|
+| Felice Yovita | 231401045 | Pemrograman Mobile 5 |
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## 📱 Tentang Aplikasi
+*AsahOtak* adalah aplikasi kuis edukatif berbasis Flutter yang dirancang untuk mengasah kemampuan berpikir pengguna melalui berbagai kategori soal, seperti Matematika, IPA, Sejarah, Bahasa Inggris, dan Geografi, dll 
+Pengguna dapat memasukkan nama, memilih kategori, menjawab 5 soal pilihan ganda, lalu melihat skor akhir.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Credit Ke Sumber Aset
+✅ 
+
+---
+
+## Link prototype:
+https://www.figma.com/design/4h8zhkHqRz63C1z4WTpXzN/Quiz-App--Community-?node-id=0-1&p=f&t=W5Ch4T3vLSfDveDZ-0
