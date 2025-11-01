@@ -75,7 +75,7 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                     )
                   else
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 48),
                 ],
               ),
 
@@ -97,9 +97,10 @@ class _QuizPageState extends State<QuizPage> {
                       borderRadius: BorderRadius.circular(cardRadius),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0x1A000000), // ~opacity 0.10
+                          color: const Color(0x1A000000), // hitam lembut, opacity 0.10
                           blurRadius: 16,
-                          offset: const Offset(0, 6),
+                          spreadRadius: 5,                 // tambah penyebaran shadow
+                          offset: const Offset(0, 6),      // sedikit ke bawah biar realistis
                         ),
                       ],
                     ),

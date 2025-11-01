@@ -161,15 +161,28 @@ class ResultPage extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            // ring progress dekoratif
-                            SizedBox(
+                            Container(
                               height: circle,
                               width: circle,
-                              child: CircularProgressIndicator(
-                                value: 0.75,
-                                strokeWidth: 10,
-                                color: const Color(0xFF0E6B63),
-                                backgroundColor: const Color(0xFFE6F2F1),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.transparent,
+                              ),
+                              foregroundDecoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: const Color(0xFFE6F2F1),
+                                  width: 3,
+                                ),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: const Color(0xFF0E6B63),
+                                    width: 10,
+                                  ),
+                                ),
                               ),
                             ),
                             // icon piala
