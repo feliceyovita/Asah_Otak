@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: SizedBox(
               width: double.infinity,
-              height: h * 0.19,
+              height: h * 0.20,
               child: Image.asset(
                 'assets/images/header.png',
                 fit: BoxFit.cover,
@@ -55,7 +55,7 @@ class HomePage extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: h * 0.02),
+                      SizedBox(height: h * 0.01),
                       SizedBox(
                         width: double.infinity,
                         child: Text(
@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: h * 0.01),
+                      SizedBox(height: h * 0.011),
                       SizedBox(
                         width: double.infinity,
                         child: Text(
