@@ -5,71 +5,94 @@ import '../data/question_data.dart';
 class QuizState extends ChangeNotifier {
   String _username = '';
   String? _category;
-  int _index = 0;
+  int _index = 0;          // 0-based
   int _score = 0;
 
+  // Penyimpanan jawaban & status submit per nomor
+  List<int?> _selectedPerQ = <int?>[];
+  List<bool>  _submittedPerQ = <bool>[];
+
+  // ===== Getters =====
   String get username => _username;
   String? get category => _category;
   int get index => _index;
   int get score => _score;
 
-  // list soal utk kategori aktif
   List<Question> get questions =>
-      _category == null ? [] : (QuestionData.byCategory[_category] ?? []);
+      QuestionData.byCategory[_category] ?? const [];
 
-  // soal saat ini
   Question get current => questions[_index];
 
+  bool get isFirst => _index == 0;
+  bool get isLast  => questions.isEmpty || _index >= questions.length - 1;
+
+  int?  selectedAt(int i)  => (i >= 0 && i < _selectedPerQ.length) ? _selectedPerQ[i] : null;
+  bool  submittedAt(int i) => (i >= 0 && i < _submittedPerQ.length) ? _submittedPerQ[i] : false;
+
+  // ===== Mutations =====
   void setUsername(String name) {
     _username = name.trim();
     notifyListeners();
   }
 
-  void setCategory(String cat) {
-    _category = cat;
+  /// Set kategori & siapkan wadah progres.
+  void setCategory(String c, {bool resetScore = true}) {
+    _category = c;
     _index = 0;
-    _score = 0;
+    if (resetScore) _score = 0;
+
+    final n = questions.length;
+    _selectedPerQ = List<int?>.filled(n, null, growable: false);
+    _submittedPerQ = List<bool>.filled(n, false, growable: false);
     notifyListeners();
   }
 
-  void addScore() {
-    _score++;
+  /// Simpan pilihan user untuk nomor saat ini.
+  void select(int optionIndex) {
+    if (questions.isEmpty) return;
+    _selectedPerQ[_index] = optionIndex;
     notifyListeners();
   }
 
-  void nextQuestion() {
-    if (_index < questions.length - 1) {
-      _index++;
-      notifyListeners();
-    }
-  }
+  /// Menilai jawaban pada nomor saat ini, beri skor jika benar, dan tandai submitted.
+  void submitCurrent() {
+    if (questions.isEmpty) return;
+    if (_submittedPerQ[_index]) return; // sudah dinilai
 
-  /// Dipanggil dari quiz.dart:
-  /// Menilai jawaban; jika benar tambah skor.
-  /// Lalu maju ke soal berikutnya.
-  /// Return: `true` masih ada soal berikut, `false` berarti habis.
-  bool answer(int selectedIndex) {
-    if (selectedIndex == current.correctIndex) {
+    final pick = _selectedPerQ[_index];
+    if (pick != null && pick == current.correctIndex) {
       _score++;
     }
-    return next();
+    _submittedPerQ[_index] = true;
+    notifyListeners();
   }
 
-  /// Maju 1 soal. Return `true` jika masih ada soal berikut.
+  /// Maju satu soal. Return true jika masih ada soal berikutnya.
   bool next() {
-    final hasNext = _index < questions.length - 1;
-    if (hasNext) {
+    if (!isLast) {
       _index++;
       notifyListeners();
+      return true;
     }
-    return hasNext;
+    return false;
   }
 
+  /// Kembali satu soal.
+  void prev() {
+    if (_index > 0) {
+      _index--;
+      notifyListeners();
+    }
+  }
+
+  /// Reset total.
   void resetAll() {
     _username = '';
     _category = null;
     _index = 0;
     _score = 0;
+    _selectedPerQ = [];
+    _submittedPerQ = [];
     notifyListeners();
   }
 }

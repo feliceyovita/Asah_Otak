@@ -24,7 +24,7 @@ class ResultPage extends StatelessWidget {
                 onPressed: () { s.resetAll(); Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false); },
                 child: const Text('Main Lagi'),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               OutlinedButton(
                 onPressed: () { s.resetAll(); Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false); },
                 child: const Text('Keluar'),
