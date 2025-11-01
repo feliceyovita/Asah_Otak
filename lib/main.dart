@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
-import 'config/app_router.dart';
-import 'config/app_routes.dart';
-import 'state/quiz_state.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+
+import 'config/router.dart';
+import 'state/quiz_state.dart';
 
 void main() {
-  runApp(const AsahOtakApp());
+  final GoRouter router = createRouter();
+  runApp(MyApp(router: router));
 }
 
-class AsahOtakApp extends StatelessWidget {
-  const AsahOtakApp({super.key});
+class MyApp extends StatelessWidget {
+  final GoRouter router;
+  const MyApp({super.key, required this.router});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => QuizState(),
-      child: MaterialApp(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        title: 'AsahOtak',
+        routerConfig: router,
         theme: ThemeData(
           fontFamily: 'Baloo2',
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2D7A7A)),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0E6B63)),
+          useMaterial3: true,
         ),
-        initialRoute: AppRoutes.welcome,
-        onGenerateRoute: AppRouter.generateRoute,
       ),
     );
   }

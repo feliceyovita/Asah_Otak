@@ -1,5 +1,7 @@
+import 'package:asahotak/config/app_routes.dart';
 import 'package:asahotak/widgets/confirm_start.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../state/quiz_state.dart';
 
@@ -33,7 +35,7 @@ class HomePage extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: SizedBox(
               width: double.infinity,
-              height: h * 0.19, // responsif
+              height: h * 0.19,
               child: Image.asset(
                 'assets/images/header.png',
                 fit: BoxFit.cover,
@@ -112,7 +114,7 @@ class HomePage extends StatelessWidget {
                                 categoryName: catTitle,
                                 onConfirm: () {
                                   context.read<QuizState>().setCategory(catTitle);
-                                  Navigator.pushNamed(context, '/quiz');
+                                  context.push(AppRoutes.quiz);
                                 },
                               ),
                             );

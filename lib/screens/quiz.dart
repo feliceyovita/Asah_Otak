@@ -1,4 +1,6 @@
+import 'package:asahotak/config/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../state/quiz_state.dart';
 import '../models/question.dart';
@@ -68,6 +70,7 @@ class _QuizPageState extends State<QuizPage> {
                           fontFamily: 'Baloo2',
                           fontWeight: FontWeight.w600,
                           fontSize: (w * 0.035).clamp(12, 14),
+                          color: const Color(0xFF006865),
                         ),
                       ),
                     )
@@ -299,7 +302,7 @@ class _QuizPageState extends State<QuizPage> {
         _lastIndex = quiz.index;
       });
     } else {
-      Navigator.pushReplacementNamed(context, '/result');
+      context.go(AppRoutes.result);
     }
   }
 }

@@ -1,4 +1,6 @@
+import 'package:asahotak/config/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../state/quiz_state.dart';
 
@@ -154,6 +156,6 @@ class _WelcomePageState extends State<WelcomePage> {
     final name = _c.text.trim();
     if (name.isEmpty) return;
     context.read<QuizState>().setUsername(name);
-    Navigator.pushReplacementNamed(context, '/home');
+    context.go(AppRoutes.home);
   }
 }

@@ -26,8 +26,11 @@ class QuizState extends ChangeNotifier {
   bool get isFirst => _index == 0;
   bool get isLast  => questions.isEmpty || _index >= questions.length - 1;
 
-  int?  selectedAt(int i)  => (i >= 0 && i < _selectedPerQ.length) ? _selectedPerQ[i] : null;
-  bool  submittedAt(int i) => (i >= 0 && i < _submittedPerQ.length) ? _submittedPerQ[i] : false;
+  int?  selectedAt(int i)  =>
+      (i >= 0 && i < _selectedPerQ.length) ? _selectedPerQ[i] : null;
+
+  bool  submittedAt(int i) =>
+      (i >= 0 && i < _submittedPerQ.length) ? _submittedPerQ[i] : false;
 
   // ===== Mutations =====
   void setUsername(String name) {
@@ -40,10 +43,7 @@ class QuizState extends ChangeNotifier {
     _category = c;
     _index = 0;
     if (resetScore) _score = 0;
-
-    final n = questions.length;
-    _selectedPerQ = List<int?>.filled(n, null, growable: false);
-    _submittedPerQ = List<bool>.filled(n, false, growable: false);
+    _reinitProgressArrays();
     notifyListeners();
   }
 
@@ -85,7 +85,16 @@ class QuizState extends ChangeNotifier {
     }
   }
 
-  /// Reset total.
+  /// Reset progres **pada kategori yang sedang aktif** (dipakai tombol "Coba lagi").
+  /// Tidak mengubah username/kategori, hanya skor, index, dan jawaban2.
+  void resetProgress() {
+    _index = 0;
+    _score = 0;
+    _reinitProgressArrays();
+    notifyListeners();
+  }
+
+  /// Reset total semuanya (dipakai saat kembali ke beranda).
   void resetAll() {
     _username = '';
     _category = null;
@@ -94,5 +103,12 @@ class QuizState extends ChangeNotifier {
     _selectedPerQ = [];
     _submittedPerQ = [];
     notifyListeners();
+  }
+
+  // ===== Helpers =====
+  void _reinitProgressArrays() {
+    final n = questions.length;
+    _selectedPerQ = List<int?>.filled(n, null, growable: false);
+    _submittedPerQ = List<bool>.filled(n, false, growable: false);
   }
 }
