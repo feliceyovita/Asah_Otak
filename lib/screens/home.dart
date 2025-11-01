@@ -1,3 +1,4 @@
+import 'package:asahotak/widgets/confirm_start.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../state/quiz_state.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final w = size.width;
     final h = size.height;
+    final cardHeight = (h * 0.22).clamp(140.0, 220.0);
 
     // Daftar kategori beserta path gambarnya
     final categories = [
@@ -24,76 +26,106 @@ class HomePage extends StatelessWidget {
       {'title': 'Olahraga', 'image': 'assets/images/sport.png'},
     ];
 
-    final crossAxisCount = w > 700 ? 3 : 2;
-    final cardHeight = h * 0.22;
-
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF004643), // gradasi atas
-              Color(0xFF00ACA5), // gradasi bawah
-            ],
-          ),
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.02),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: h * 0.01),
-                Text(
-                  'Selamat Datang, ${state.username}',
-                  style: TextStyle(
-                    fontFamily: 'Baloo2',
-                    fontSize: w * 0.06,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(height: h * 0.015),
-                Text(
-                  'Pilih kategori Anda:',
-                  style: TextStyle(
-                    fontFamily: 'Baloo2',
-                    fontSize: w * 0.045,
-                    color: Colors.white70,
-                  ),
-                ),
-                SizedBox(height: h * 0.02),
-
-                // GRID KATEGORI
-                Expanded(
-                  child: GridView.builder(
-                    itemCount: categories.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      mainAxisSpacing: h * 0.02,
-                      crossAxisSpacing: w * 0.04,
-                      childAspectRatio: 0.85,
-                    ),
-                    itemBuilder: (context, index) {
-                      final cat = categories[index];
-                      return _CategoryCard(
-                        title: cat['title']!,
-                        imagePath: cat['image']!,
-                        height: cardHeight,
-                        onTap: () {
-                          context.read<QuizState>().setCategory(cat['title']!);
-                          Navigator.pushNamed(context, '/quiz');
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: SizedBox(
+              width: double.infinity,
+              height: h * 0.19, // responsif
+              child: Image.asset(
+                'assets/images/header.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
+
+          // ===== Konten (di depan header) =====
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: w * 0.07, vertical: h * 0.02),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: h * 0.01),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: h * 0.02),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          'Selamat Datang, ${state.username}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Baloo2',
+                            fontSize: w * 0.06,
+                            color: Colors.white,          // <-- putih agar kontras di header hijau
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: h * 0.01),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          'Pilih kategori kuis Anda:',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Baloo2',
+                            fontSize: w * 0.048,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  // jarak transisi dari area hijau ke grid putih
+                  SizedBox(height: h * 0.06),
+
+                  // GRID KATEGORI
+                  Expanded(
+                    child: GridView.builder(
+                      padding: EdgeInsets.only(bottom: h * 0.04),
+                      itemCount: categories.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: w > 700 ? 3 : 2,
+                        mainAxisSpacing: h * 0.03,
+                        crossAxisSpacing: w * 0.06,
+                        childAspectRatio: 0.80,
+                      ),
+                      itemBuilder: (context, index) {
+                        final cat = categories[index];
+                        return _CategoryCard(
+                          title: cat['title']!,
+                          imagePath: cat['image']!,
+                          height: cardHeight, // pastikan cardHeight didefinisikan di atas
+                          onTap: () {
+                            final catTitle = cat['title']!;
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (_) => ConfirmStartDialog(
+                                categoryName: catTitle,
+                                onConfirm: () {
+                                  context.read<QuizState>().setCategory(catTitle);
+                                  Navigator.pushNamed(context, '/quiz');
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -116,23 +148,15 @@ class _CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
 
-    return InkWell(
-      onTap: onTap,
+    return Material(
+      color: const Color(0xFFCDE1E0),
       borderRadius: BorderRadius.circular(20),
-      child: Ink(
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.15),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
+      elevation: 3,                             // bayangan ringan
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
         child: Padding(
-          padding: EdgeInsets.all(w * 0.035),
+          padding: EdgeInsets.all(w * 0.045),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
