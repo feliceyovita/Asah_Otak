@@ -233,7 +233,7 @@ class QuestionData {
     ),
   ];
 
-  // Peta kategori → soal
+  // Peta kategori ke soal
   static const byCategory = {
     'Matematika': math,
     'IPA': ipa,

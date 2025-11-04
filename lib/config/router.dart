@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-// import semua screen kamu
 import '../screens/welcome.dart';
 import '../screens/home.dart';
 import '../screens/quiz.dart';

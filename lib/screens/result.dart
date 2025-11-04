@@ -27,7 +27,7 @@ class ResultPage extends StatelessWidget {
     final cardRadius = 20.0;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF6C9C98), // hijau header sesuai mock
+      backgroundColor: const Color(0xFF6C9C98),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.fromLTRB(padX, padY, padX, padY),
@@ -35,7 +35,6 @@ class ResultPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // KARTU BESAR DI TENGAH + TROPHY OVERLAP
                   Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -45,7 +44,7 @@ class ResultPage extends StatelessWidget {
                         width: double.infinity,
                         padding: EdgeInsets.fromLTRB(
                           padX,
-                          circle * 0.60, // ruang untuk judul dsb
+                          circle * 0.60,
                           padX,
                           padY * 2,
                         ),
@@ -103,7 +102,7 @@ class ResultPage extends StatelessWidget {
                                       fontWeight: FontWeight.w800,
                                       fontSize: (w * 0.12).clamp(36, 42),
                                       color: const Color(0xFF0E6B63),
-                                      height: 1.0, // rapikan line-height
+                                      height: 1.0,
                                     ),
                                   ),
                                   TextSpan(
@@ -149,7 +148,7 @@ class ResultPage extends StatelessWidget {
                         ),
                       ),
 
-                      // trophy circle overlap
+                      // trophy circle
                       Container(
                         height: circle,
                         width: circle,
