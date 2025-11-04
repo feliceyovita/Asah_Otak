@@ -22,7 +22,7 @@ Pengguna dapat memasukkan nama, memilih kategori, menjawab 5 soal pilihan ganda,
 <img width="343" height="706" alt="Screenshot 2025-11-05 042644" src="https://github.com/user-attachments/assets/09b515a6-29e0-4fb1-9863-5a650cb1f585" />
 
 ## Link video:
-
+https://drive.google.com/file/d/1yo6UVebxwMy3Nenjop14grrzA4klNzND/view?usp=sharing
 
 ---
 
